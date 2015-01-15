@@ -9,6 +9,6 @@ The original Gozirra has one **limitation**. It doesn't allow you to specify the
 
 	public Client(String server, int port, String login, String pass, String vhost)
 
-For now, we didn't change anything else in the library. You may read [the documentation](http://robomq.readthedocs.org/en/latest/user-guide/stomp/STOMP/#java) for use guide, [robomq.io](http://www.robomq.io/) provides explicit explanation and example code.  
+For now, we didn't change anything else in the library. You may read [the documentation](http://robomq.readthedocs.org/en/latest/STOMP/#java) for use guide, [robomq.io](http://www.robomq.io/) provides explicit explanation and example code.  
 
 We provide both source code and jar package in this repository. Import this library in your program	`import net.ser1.stomp.*;` and compile your source code along with gozirra.jar.  
