@@ -5,7 +5,7 @@ Gozirra is a lightweight implementation of the Stomp version 1.0. The original G
 
 Therefore, [robomq.io](http://www.robomq.io/) decided to create this fork on GitHub and maintain it. [Robomq.io](http://www.robomq.io/) provides cloud hosted Message Queue as a Service platform bundled with management interface, dashboards, analytics and SDK. STOMP is just one of the message queue protocols we support on our rental broker.  Welcome to visit our website at <http://www.robomq.io/> and full documentation at <http://robomq.readthedocs.org/>.   
   
-Gozirra-robomq have fixed several bugs based on the original Gozirra and they are all listed bellow.  
+Gozirra-robomq has fixed several bugs based on the original Gozirra and they are all listed bellow.  
 
 1. Added one more argument "vhost" in the constructor of Client class. The interface is now  
 
@@ -20,8 +20,8 @@ Gozirra-robomq have fixed several bugs based on the original Gozirra and they ar
 			Thread.sleep(2000); //check interval must be short enough
 		}
 
-3. Added time out for connecting. Maximal number of attempts is 20 now. You will make the call whether to infinitely retry it or stop at some point.  
-4. Changed the default Encoding from US-ASCII to UTF-8.  
+3. Added time out for connecting. Maximal number of attempts is 20 now. Your client program will make the call whether to infinitely retry it or stop at some point.  
+4. Changed the default encoding from US-ASCII to UTF-8.  
 
 You may read [the documentation](http://robomq.readthedocs.org/en/latest/STOMP/#java) for use guide, [robomq.io](http://www.robomq.io/) provides explicit explanation and example code for Gozirra-robomq.  
 
