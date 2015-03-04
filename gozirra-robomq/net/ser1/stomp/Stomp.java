@@ -44,10 +44,10 @@ public abstract class Stomp {
    * Incoming errors (as String messages)
    */
   private List _errors = new ArrayList();
-  
+
 
   /**
-   * Disconnect from a server, including headers.  
+   * Disconnect from a server, including headers.
    * Must be implemented by the child class.  Should set the
    * _connected flag to false.
    *
@@ -58,7 +58,7 @@ public abstract class Stomp {
 
   /**
    * Transmit a message to a server.  Must be implemented by the child class.
-   * The implementation must handle cases where the header and/or the body 
+   * The implementation must handle cases where the header and/or the body
    * are null.
    *
    * @param command The Stomp command.  If null, causes an error.
@@ -96,14 +96,14 @@ public abstract class Stomp {
 
 
   /**
-   * Begins a transaction.  Messages will not be delivered to 
+   * Begins a transaction.  Messages will not be delivered to
    * subscribers until commit() has been called.
    */
   public void begin() { transmit( Command.BEGIN ); }
 
 
   /**
-   * Begins a transaction.  Messages will not be delivered to 
+   * Begins a transaction.  Messages will not be delivered to
    * subscribers until commit() has been called.
    *
    * @param header Additional headers to send to the server.
@@ -140,9 +140,9 @@ public abstract class Stomp {
    * was called to be delivered.  This method does not return until
    * the server has confirmed that the commit was successfull.
    */
-  public void commitW( Map header ) throws InterruptedException { 
+  public void commitW( Map header ) throws InterruptedException {
     String receipt = addReceipt( header );
-    transmit( Command.COMMIT, header ); 
+    transmit( Command.COMMIT, header );
     waitOnReceipt( receipt );
   }
 
@@ -221,8 +221,8 @@ public abstract class Stomp {
 
   private String addReceipt( Map header ) {
     if (header == null) header = new HashMap();
-    String receipt = String.valueOf(hashCode())+"&"+System.currentTimeMillis();
-    header.put( "receipt",receipt );
+    String receipt = String.valueOf(hashCode()) + "&" + System.currentTimeMillis();
+    header.put( "receipt", receipt );
     return receipt;
   }
 
@@ -235,7 +235,7 @@ public abstract class Stomp {
    * @param headers Additional headers to send to the server.
    * @param listener A listener to receive messages sent to the channel
    */
-  public void subscribeW( String name, Listener listener, Map header ) 
+  public void subscribeW( String name, Listener listener, Map header )
   throws InterruptedException {
     String receipt = addReceipt( header );
     subscribe( name, listener, header );
@@ -250,7 +250,7 @@ public abstract class Stomp {
    * @param name The name of the channel to listen on
    * @param listener A listener to receive messages sent to the channel
    */
-  public void subscribeW( String name, Listener listener ) 
+  public void subscribeW( String name, Listener listener )
   throws InterruptedException {
     subscribeW( name, listener, null );
   }
@@ -297,7 +297,7 @@ public abstract class Stomp {
    */
   public void unsubscribe( String name, Map header ) {
     if (header == null) header = new HashMap();
-    synchronized( _listeners ) { _listeners.remove( name ); }
+    synchronized ( _listeners ) { _listeners.remove( name ); }
     header.put( "destination", name );
     transmit( Command.UNSUBSCRIBE, header );
   }
@@ -340,8 +340,8 @@ public abstract class Stomp {
    * @param dest The name of the channel to send the message to
    * @param mesg The message to send.
    */
-  public void sendW( String dest, String mesg ) 
-    throws InterruptedException {
+  public void sendW( String dest, String mesg )
+  throws InterruptedException {
     sendW( dest, mesg, null );
   }
 
@@ -353,8 +353,8 @@ public abstract class Stomp {
    * @param dest The name of the channel to send the message to
    * @param mesg The message to send.
    */
-  public void sendW( String dest, String mesg, Map header ) 
-    throws InterruptedException {
+  public void sendW( String dest, String mesg, Map header )
+  throws InterruptedException {
     String receipt = addReceipt( header );
     send( dest, mesg, header );
     waitOnReceipt( receipt );
@@ -393,12 +393,12 @@ public abstract class Stomp {
    *  contains no messages.  This is non-blocking.
    */
   public Message getNext() {
-    synchronized(_queue) { return (Message)_queue.pop(); }
+    synchronized (_queue) { return (Message)_queue.pop(); }
   }
 
 
   /**
-   * Get the next unconsumed message for a particular channel.   This is 
+   * Get the next unconsumed message for a particular channel.   This is
    * non-blocking.
    *
    * @param name the name of the channel to search for
@@ -407,7 +407,7 @@ public abstract class Stomp {
    *  contains no messages for the channel.
    */
   public Message getNext( String name ) {
-    synchronized( _queue ) {
+    synchronized ( _queue ) {
       for (int idx = 0; idx < _queue.size(); idx++) {
         Message m = (Message)_queue.get(idx);
         if (m.headers().get( "destination" ).equals(name)) {
@@ -435,8 +435,8 @@ public abstract class Stomp {
    * @param receipt_id the id of the receipts to find
    */
   public boolean hasReceipt( String receipt_id ) {
-    synchronized( _receipts ) {
-      for (Iterator i=_receipts.iterator(); i.hasNext();) {
+    synchronized ( _receipts ) {
+      for (Iterator i = _receipts.iterator(); i.hasNext();) {
         String o = (String)i.next();
         if (o.equals(receipt_id)) return true;
       }
@@ -451,8 +451,8 @@ public abstract class Stomp {
    * @param receipt_id the id of the receipts to delete
    */
   public void clearReceipt( String receipt_id ) {
-    synchronized( _receipts ) {
-      for (Iterator i=_receipts.iterator(); i.hasNext();) {
+    synchronized ( _receipts ) {
+      for (Iterator i = _receipts.iterator(); i.hasNext();) {
         String o = (String)i.next();
         if (o.equals(receipt_id)) i.remove();
       }
@@ -464,21 +464,21 @@ public abstract class Stomp {
    * Remove all of the receipts
    */
   public void clearReceipts() {
-    synchronized( _receipts ) {
+    synchronized ( _receipts ) {
       _receipts.clear();
     }
   }
 
-  public void waitOnReceipt( String receipt_id ) 
-    throws java.lang.InterruptedException {
-    synchronized( _receipts ) {
+  public void waitOnReceipt( String receipt_id )
+  throws java.lang.InterruptedException {
+    synchronized ( _receipts ) {
       while (!hasReceipt(receipt_id))
         _receipts.wait();
     }
   }
-  public boolean waitOnReceipt( String receipt_id, long timeout ) 
-    throws java.lang.InterruptedException {
-    synchronized( _receipts ) {
+  public boolean waitOnReceipt( String receipt_id, long timeout )
+  throws java.lang.InterruptedException {
+    synchronized ( _receipts ) {
       while (!hasReceipt(receipt_id ))
         _receipts.wait( timeout );
       if (_receipts.contains( receipt_id )) {
@@ -500,7 +500,7 @@ public abstract class Stomp {
     for (int i=0; i<trace.length; buff.append( trace[i].getClassName()+":"+trace[i++].getLineNumber()+" << " ));
     System.err.println("In nextError with "+_errors.size()+" errors from "+buff.toString());
     */
-    synchronized( _errors ) {
+    synchronized ( _errors ) {
       if (_errors.size() == 0) return null;
       return (String)_errors.remove(0);
     }
@@ -510,7 +510,7 @@ public abstract class Stomp {
   public void receive( Command c, Map h, String b ) {
     if (c == Command.MESSAGE ) {
       String destination = (String)h.get( "destination" );
-      synchronized( _listeners ) {
+      synchronized ( _listeners ) {
         List listeners = (List)_listeners.get( destination );
         if (listeners != null) {
           listeners = new ArrayList( listeners );
@@ -532,7 +532,7 @@ public abstract class Stomp {
 
     } else if (c == Command.RECEIPT ) {
       _receipts.add( h.get("receipt-id") );
-      synchronized(_receipts) { _receipts.notify(); }
+      synchronized (_receipts) { _receipts.notify(); }
 
     } else if (c == Command.ERROR ) {
       if (_error_listeners.size() > 0) {
@@ -546,7 +546,7 @@ public abstract class Stomp {
           }
         }
       } else {
-        synchronized( _errors ) {
+        synchronized ( _errors ) {
           _errors.add( b );
         }
       }

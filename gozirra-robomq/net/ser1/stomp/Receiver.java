@@ -14,7 +14,7 @@ public class Receiver extends Thread {
   protected Receiver() {
     super();
   }
-  public Receiver( MessageReceiver m, InputStream input ) { 
+  public Receiver( MessageReceiver m, InputStream input ) {
     super();
     setup( m, input );
   }
@@ -23,7 +23,7 @@ public class Receiver extends Thread {
     _receiver = m;
     try {
       _stream = input;
-      _input = new BufferedReader(new InputStreamReader(input,Command.ENCODING));
+      _input = new BufferedReader(new InputStreamReader(input, Command.ENCODING));
     } catch (UnsupportedEncodingException e) {
       // No, no, no.  Stupid Java.
     }
@@ -45,8 +45,8 @@ public class Receiver extends Thread {
               while ((header = _input.readLine()).length() > 0) {
                 int ind = header.indexOf( ':' );
                 String k = header.substring( 0, ind );
-                String v = header.substring( ind+1, header.length() );
-                headers.put(k.trim(),v.trim());
+                String v = header.substring( ind + 1, header.length() );
+                headers.put(k.trim(), v.trim());
               }
               // Read body
               StringBuffer body = new StringBuffer();
@@ -66,7 +66,7 @@ public class Receiver extends Thread {
                 while (_input.read() != 0);
               } catch (Exception ex) { }
               try {
-                _receiver.receive( Command.ERROR, null, e.getMessage()+"\n" );
+                _receiver.receive( Command.ERROR, null, e.getMessage() + "\n" );
               } catch (Exception ex) {
                 // We ignore these errors; we don't want client code
                 // crashing our listener.
@@ -78,11 +78,11 @@ public class Receiver extends Thread {
             _receiver.disconnect();
             return;
           }
-          try {Thread.sleep(200);}catch(InterruptedException e){interrupt();}
+          try {Thread.sleep(200);} catch (InterruptedException e) {interrupt();}
         }
       }
     } catch (IOException e) {
-      // What do we do with IO Exceptions?  Report it to the receiver, and 
+      // What do we do with IO Exceptions?  Report it to the receiver, and
       // exit the thread.
       System.err.println("Stomp exiting because of exception");
       e.printStackTrace( System.err );

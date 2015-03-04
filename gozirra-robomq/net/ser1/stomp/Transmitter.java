@@ -9,8 +9,7 @@ import java.io.IOException;
  * (c)2005 Sean Russell
  */
 class Transmitter {
-  public static void transmit( Command c, Map h, String b, 
-      java.io.OutputStream out ) throws IOException {
+  public static void transmit( Command c, Map h, String b, java.io.OutputStream out ) throws IOException {
     StringBuffer message = new StringBuffer( c.toString() );
     message.append( "\n" );
 

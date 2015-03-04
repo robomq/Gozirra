@@ -7,25 +7,25 @@ import java.io.IOException;
  * (c)2005 Sean Russell
  */
 public class Command {
-  public final static String ENCODING = "US-ASCII";
+  public final static String ENCODING = "UTF-8";
   private String _command;
 
-  private Command( String msg ) { 
+  private Command( String msg ) {
     _command = msg;
   }
   public static Command SEND = new Command( "SEND" ),
-         SUBSCRIBE = new Command( "SUBSCRIBE" ),
-         UNSUBSCRIBE = new Command( "UNSUBSCRIBE" ),
-         BEGIN = new Command( "BEGIN" ),
-         COMMIT = new Command( "COMMIT" ),
-         ABORT = new Command( "ABORT" ),
-         DISCONNECT = new Command( "DISCONNECT" ),
-         CONNECT = new Command( "CONNECT" );
+  SUBSCRIBE = new Command( "SUBSCRIBE" ),
+  UNSUBSCRIBE = new Command( "UNSUBSCRIBE" ),
+  BEGIN = new Command( "BEGIN" ),
+  COMMIT = new Command( "COMMIT" ),
+  ABORT = new Command( "ABORT" ),
+  DISCONNECT = new Command( "DISCONNECT" ),
+  CONNECT = new Command( "CONNECT" );
 
   public static Command MESSAGE = new Command( "MESSAGE" ),
-         RECEIPT = new Command( "RECEIPT" ),
-         CONNECTED = new Command( "CONNECTED" ),
-         ERROR = new Command( "ERROR" );
+  RECEIPT = new Command( "RECEIPT" ),
+  CONNECTED = new Command( "CONNECTED" ),
+  ERROR = new Command( "ERROR" );
 
   public static Command valueOf( String v ) {
     v = v.trim();
@@ -41,7 +41,7 @@ public class Command {
     else if (v.equals( "CONNECTED" )) return CONNECTED;
     else if (v.equals( "DISCONNECT" )) return DISCONNECT;
     else if (v.equals( "ERROR" )) return ERROR;
-    throw new Error( "Unrecognised command "+v );
+    throw new Error( "Unrecognised command " + v );
   }
 
   public String toString() {

@@ -13,7 +13,7 @@ public class AllowAllAuthenticator implements Authenticator {
   public Object connect( String user, String pass ) throws LoginException {
     return "";
   }
-  
+
   /**
    * Authorizes a send or subscribe request.
    *

@@ -11,7 +11,7 @@ public interface Authenticator {
    * @return a token which will be used for future authorization requests
    */
   public Object connect( String user, String pass ) throws LoginException;
-  
+
   /**
    * Authorizes a send request.
    *

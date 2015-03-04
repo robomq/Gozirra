@@ -19,7 +19,7 @@ import java.util.*;
  *   // Note that 's' is now listening on TWO ports
  *   s.close( 61656 );                // To close a port
  *   s.close( 12345 );                // Now no ports are open.
- *   // This is effectively the same as: 
+ *   // This is effectively the same as:
  *   i = new Server();                // A server with no network (intra-VM)
  *   Stomp c = s.getClient();         // Creates and returns a client
  *   // that is connected to the server directly via VM method calls --
@@ -100,7 +100,7 @@ public class Server {
    * Opens a port for internet connections.  A single server can listen
    * on multiple ports, so calling this method multiple times will open
    * multiple ports.
-   * 
+   *
    * @param port This port will be opened and will listen for client
    *  connections.  If the port value is less than 0, an exception is
    *  thrown.
@@ -164,7 +164,7 @@ public class Server {
       } catch (Exception e) {
         e.printStackTrace( System.err );
       }
-      for (Iterator i=_handlers.iterator(); i.hasNext(); ) {
+      for (Iterator i = _handlers.iterator(); i.hasNext(); ) {
         try {
           Thread t = (Thread)i.next();
           t.interrupt();
@@ -211,8 +211,8 @@ public class Server {
    * Sets the queuing mechanism used for all further messages.  Any
    * existing undelivered messages will <em>not</em> use this queue.
    * FIXME Not implemented
-   * 
-   * @param queue 
+   *
+   * @param queue
    */
   public void setQueue( Queue q ) {
     _message_queue = q;
@@ -245,12 +245,12 @@ public class Server {
   // FIXME: Add login handling feature
   /**
    * Manages client connections.  There is one SocketHandler per client.
-   * This class is responsible for relaying communications between the 
+   * This class is responsible for relaying communications between the
    * server and the client for which it is responsible.
    */
-  protected class SocketHandler 
-      extends Receiver 
-      implements Listener, Authenticatable {
+  protected class SocketHandler
+    extends Receiver
+    implements Listener, Authenticatable {
     private InputStream _input;
     private OutputStream _output;
     private Socket _socket;
@@ -297,13 +297,13 @@ public class Server {
      * Close the connection with the client.
      */
     protected void close() {
-      try { 
+      try {
         _socket.shutdownInput();
-        _input.close();  
+        _input.close();
       } catch (IOException e) { /* Who cares? */ }
-      try { 
+      try {
         _socket.shutdownOutput();
-        _output.close(); 
+        _output.close();
       } catch (IOException e) { /* Who cares? */ }
       try { _socket.close(); } catch (IOException e) { /* Who cares? */ }
     }
@@ -314,7 +314,7 @@ public class Server {
 
     /**
      * Gets called when messages come in from the client, and relays the
-     * message to the server.  This method handles and consumes CONNECT, 
+     * message to the server.  This method handles and consumes CONNECT,
      * DISCONNECT, and ERROR messages.  It is also responsible for sending
      * RECEIPTs back to the client.
      */
@@ -404,7 +404,7 @@ public class Server {
     StringBuffer b = new StringBuffer("[ ");
     for (Iterator keys = m.keySet().iterator(); keys.hasNext(); ) {
       String k = keys.next().toString();
-      b.append( k+" => "+m.get(k)+", " );
+      b.append( k + " => " + m.get(k) + ", " );
     }
     b.append( "]" );
     return b.toString();
@@ -427,7 +427,7 @@ public class Server {
         synchronized (_transactions) {
           List trans = (List)_transactions.remove(y);
           trans = new ArrayList( trans );
-          for (Iterator i=trans.iterator(); i.hasNext(); ) {
+          for (Iterator i = trans.iterator(); i.hasNext(); ) {
             Message m = (Message)i.next();
             try {
               receive( m.command(), m.headers(), m.body(), y );
@@ -453,7 +453,7 @@ public class Server {
         if (c == Command.SEND) {
           if (y instanceof IntraVMClient ||
               _authenticator.authorizeSend( y.token(), destination )) {
-            synchronized( _listeners ) {
+            synchronized ( _listeners ) {
               List l = (List)_listeners.get( destination );
               if (l != null) {
                 l = new ArrayList(l);
@@ -465,15 +465,15 @@ public class Server {
                     // Don't allow listener code to break us
                   }
                 }
-              } 
+              }
             }
           } else {
             Map error_headers = new HashMap();
             error_headers.put( "message:", "authorization refused");
             error_headers.put( "type:", "send");
             error_headers.put( "channel:", destination);
-            y.error( error_headers, "The message:\n-----\n"+b+
-                "\n-----\nAuthentication token refused for this channel");
+            y.error( error_headers, "The message:\n-----\n" + b +
+                     "\n-----\nAuthentication token refused for this channel");
           }
 
         } else if (c == Command.SUBSCRIBE) {
@@ -492,8 +492,8 @@ public class Server {
             error_headers.put( "message:", "authorization refused");
             error_headers.put( "type:", "subscription");
             error_headers.put( "channel:", destination);
-            y.error( error_headers, "The message:\n-----\n"+b+
-                "\n-----\nAuthentication token refused for this channel");
+            y.error( error_headers, "The message:\n-----\n" + b +
+                     "\n-----\nAuthentication token refused for this channel");
           }
 
         } else if (c == Command.UNSUBSCRIBE) {
@@ -510,7 +510,7 @@ public class Server {
 
         } else if (c == Command.DISCONNECT) {
           synchronized (_listeners) {
-            for (Iterator i=_listeners.values().iterator(); i.hasNext(); ) {
+            for (Iterator i = _listeners.values().iterator(); i.hasNext(); ) {
               List l = (List)i.next();
               l.remove( y );
             }

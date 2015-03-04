@@ -28,14 +28,14 @@ public class IntraVMClient extends Stomp implements Listener, Authenticatable {
 
 
   /**
-   * Transmit a message to clients and listeners.  
+   * Transmit a message to clients and listeners.
    */
   public void transmit( Command c, Map h, String b ) {
     _server.receive( c, h, b, this );
   }
 
 
-  public void disconnect( Map h ) { 
+  public void disconnect( Map h ) {
     _server.receive( Command.DISCONNECT, null, null, this );
     _server = null;
   }

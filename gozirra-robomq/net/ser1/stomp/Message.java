@@ -18,6 +18,3 @@ public class Message {
   public String body() { return _body; }
   public Command command() { return _command; }
 }
-
-
-
