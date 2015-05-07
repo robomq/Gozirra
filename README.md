@@ -1,7 +1,7 @@
 # Gozirra-robomq
 This is a fork of the Gozirra 0.4.1 project adding additional functionality and maintaining it actively for [STOMP](https://stomp.github.io/) specifications.  
 
-Gozirra is a lightweight implementation of the Stomp version 1.0. The original Gozirra project can be found at <http://www.germane-software.com/software/Java/Gozirra/>. The author haven't updated it since the initial publish years ago and although Gozirra is one of most popular Java libraries for STOMP, there still could be a TODO list for it.  
+Gozirra is a lightweight implementation of the Stomp version 1.0. The original Gozirra project can be found at <http://www.germane-software.com/software/Java/Gozirra/>. The author haven't updated it since the initial publish many years ago and although Gozirra is one of most popular Java libraries for STOMP, there is still a TODO list on it.  
 
 Therefore, [robomq.io](http://www.robomq.io/) decided to create this fork on GitHub and maintain it. [Robomq.io](http://www.robomq.io/) provides cloud hosted Message Queue as a Service platform bundled with management interface, dashboards, analytics and SDK. STOMP is just one of the message queue protocols we support on our rental broker.  Welcome to visit our website at <http://www.robomq.io/> and full documentation at <http://robomq.readthedocs.org/>.   
   
@@ -20,8 +20,11 @@ Gozirra-robomq has fixed several bugs based on the original Gozirra and they are
 			Thread.sleep(2000); //check interval must be short enough
 		}
 
-3. Added time out for connecting. Maximal number of attempts is 20 now. Your client program will make the call whether to infinitely retry it or stop at some point.  
-4. Changed the default encoding from US-ASCII to UTF-8.  
+3. Added "heart-beat:60000,0" header in the CONNECT frame for client to report its aliveness to broker every 60 seconds, so that client will be more robust in terms of connectivity.  
+
+4. Added time out for connecting. Maximal number of attempts is 20 now. Your client program will make the call whether to infinitely retry it or stop at some point.  
+
+5. Changed the default encoding from US-ASCII to UTF-8.  
 
 You may read [the documentation](http://robomq.readthedocs.org/en/latest/STOMP/#java) for use guide, [robomq.io](http://www.robomq.io/) provides explicit explanation and example code for Gozirra-robomq.  
 

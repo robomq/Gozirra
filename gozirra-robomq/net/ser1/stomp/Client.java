@@ -57,6 +57,7 @@ public class Client extends Stomp implements MessageReceiver {
         header.put("login", login);
         header.put("passcode", pass);
         header.put("host", vhost);
+        header.put("heart-beat", "60000,0");
         transmit(Command.CONNECT, header, null);
         // Busy loop bail out
         int x = 0;
